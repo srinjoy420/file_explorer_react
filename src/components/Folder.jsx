@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Folder = ({ explorer }) => {
+const Folder = ({ explorer,handelInsertNode }) => {
     console.log(explorer);
     const [expanded, setExpanded] = useState(false)
     const [showInput, setShowInput] = useState({ visible: false, isFolder: false })
@@ -19,7 +19,7 @@ const Folder = ({ explorer }) => {
     const onAddFolder = (e) => {
         // e.key is modern practice over e.keyCode
         if (e.key === 'Enter' && e.target.value) {
-            // TODO: Call your backend/state logic here to save the folder name: e.target.value
+           handelInsertNode(explorer.id,e.target.value,showInput.isFolder)
             setShowInput({ ...showInput, visible: false });
         }
     }
@@ -41,13 +41,13 @@ const Folder = ({ explorer }) => {
                     <div className="flex gap-1">
                         <button 
                             className='px-1.5 py-0.5 text-xs border rounded bg-white hover:bg-gray-50' 
-                            onClick={(e) => handelNewFolder(e, true)} // Fixed missing 'e' reference
+                            onClick={(e) => handelNewFolder(e, true)} 
                         >
                             Folder +
                         </button>
                         <button 
                             className='px-1.5 py-0.5 text-xs border rounded bg-white hover:bg-gray-50' 
-                            onClick={(e) => handelNewFolder(e, false)} // Fixed missing 'e' reference
+                            onClick={(e) => handelNewFolder(e, false)} 
                         >
                             File +
                         </button>
@@ -64,7 +64,7 @@ const Folder = ({ explorer }) => {
                                 type='text'
                                 autoFocus
                                 className="border border-blue-400 px-1 rounded text-sm outline-none"
-                                onKeyDown={onAddFolder} // Fixed: Attached the keydown event listener
+                                onKeyDown={onAddFolder} 
                                 onBlur={() => setShowInput({ ...showInput, visible: false })}
                             />
                         </div>
@@ -73,7 +73,8 @@ const Folder = ({ explorer }) => {
                     {/* Recursive Map rendering child nodes */}
                     {explorer.items?.map((exp) => {
                         return (
-                            <Folder explorer={exp} key={exp.id} />
+                            <Folder explorer={exp} key={exp.id} handelInsertNode={handelInsertNode}/>
+
                         )
                     })}
                 </div>
