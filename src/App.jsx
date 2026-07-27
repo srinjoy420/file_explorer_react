@@ -4,7 +4,6 @@ import Folder from './components/Folder.jsx'
 import useTraverseTree from './hooks/UseTraverse.js'
 
 
-
 const App = () => {
   const [explorerData, setExplorerData] = useState(explorer)
   const { insertNode } = useTraverseTree()
